@@ -21,7 +21,7 @@ export function Board({ board, onClick, winner }: BoardProps) {
   }
 
   return (
-    <div className="mx-auto grid grid-cols-3 gap-4 w-full sm:max-w-[26rem]">
+    <div className="mx-auto grid grid-cols-3 gap-4 max-w-[320px] sm:max-w-[26rem]">
       {board.map((square, index) => (
         <Square
           key={index}
