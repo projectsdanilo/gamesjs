@@ -17,7 +17,7 @@ const getWinnerColor = (isWinner: boolean) =>
 export function Square({ value, onClick, isWinner }: SquareProps) {
   return (
     <motion.button
-      className={`h-12 w-12 sm:h-32 sm:w-32 border-2 sm:border-4 border-gray-200 text-md sm:text-4xl font-bold rounded-xl mx-auto ${getTextColor(value)} ${getWinnerColor(isWinner)}`}
+      className={`h-14 w-14 sm:h-32 sm:w-32 border-2 sm:border-4 border-gray-200 text-md sm:text-4xl font-bold rounded-xl mx-auto ${getTextColor(value)} ${getWinnerColor(isWinner)}`}
       type="button"
       onClick={onClick}
       initial={{ scale: 0 }}
