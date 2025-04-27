@@ -3,6 +3,7 @@ import {
   CircleCheck,
   Gamepad2,
   Hash,
+  Menu,
   PersonStanding,
   RotateCcw,
   Worm,
@@ -17,6 +18,7 @@ import { Board } from '@views/components/Board';
 
 export function TicTacToe() {
   const [board, setBoard] = useState<BoardState>(Array(9).fill(null));
+  const [showSidebar, setShowSidebar] = useState(true);
   const winner = checkWinner(board);
   const isDraw = isBoardFull(board);
   const currentPlayer = board.filter(Boolean).length % 2 === 0 ? 'X' : 'O';
@@ -37,54 +39,69 @@ export function TicTacToe() {
     setBoard(Array(9).fill(null));
   }
 
+  function handleOpenSidebar() {
+    setShowSidebar(!showSidebar);
+  }
+
   return (
     <div className="flex">
-      <header className="max-w-[200px] flex-1 py-8 px-4 flex flex-col items-center bg-blue-100">
-        <Gamepad2 className="text-pink text-3xl w-10 h-10" />
-        <nav className="flex flex-col mt-6 gap-3">
-          <Link to="/" className="flex gap-1 items-center">
-            <Hash className="text-pink text-sm w-4 h-4" />
-            Tic Tac Toe
-          </Link>
-          <Link
-            to={routes.memory}
-            className="flex gap-1 items-center opacity-10 pointer-events-none"
-          >
-            <Brain className="text-pink text-sm w-4 h-4" />
-            Memory Game
-          </Link>
-          <Link
-            to={routes.memory}
-            className="flex gap-1 items-center opacity-10 pointer-events-none"
-          >
-            <PersonStanding className="text-pink text-sm w-4 h-4" />
-            Hangman
-          </Link>
-          <Link
-            to={routes.memory}
-            className="flex gap-1 items-center opacity-10 pointer-events-none"
-          >
-            <CircleCheck className="text-pink text-sm w-4 h-4" />
-            Quiz Game
-          </Link>
-          <Link
-            to={routes.memory}
-            className="flex gap-1 items-center opacity-10 pointer-events-none"
-          >
-            <Worm className="text-pink text-sm w-4 h-4" />
-            Snake Game
-          </Link>
-        </nav>
-      </header>
-      <main className="flex-1 bg-blue-200 min-h-screen flex items-center justify-center">
+      <button
+        type="button"
+        onClick={handleOpenSidebar}
+        className="fixed top-3 left-3 hover:text-pink transition-colors duration-200 z-20"
+      >
+        <Menu />
+      </button>
+      {showSidebar && (
+        <header className="max-w-[200px] flex-1 py-8 px-4 flex flex-col items-center bg-blue-100 fixed md:relative z-10 left-0 top-0 h-screen">
+          <Gamepad2 className="text-pink text-3xl w-10 h-10" />
+          <nav className="flex flex-col mt-6 gap-3">
+            <Link to="/" className="flex gap-1 items-center">
+              <Hash className="text-pink text-sm w-4 h-4" />
+              Tic Tac Toe
+            </Link>
+            <Link
+              to={routes.memory}
+              className="flex gap-1 items-center opacity-10 pointer-events-none"
+            >
+              <Brain className="text-pink text-sm w-4 h-4" />
+              Memory Game
+            </Link>
+            <Link
+              to={routes.memory}
+              className="flex gap-1 items-center opacity-10 pointer-events-none"
+            >
+              <PersonStanding className="text-pink text-sm w-4 h-4" />
+              Hangman
+            </Link>
+            <Link
+              to={routes.memory}
+              className="flex gap-1 items-center opacity-10 pointer-events-none"
+            >
+              <CircleCheck className="text-pink text-sm w-4 h-4" />
+              Quiz Game
+            </Link>
+            <Link
+              to={routes.memory}
+              className="flex gap-1 items-center opacity-10 pointer-events-none"
+            >
+              <Worm className="text-pink text-sm w-4 h-4" />
+              Snake Game
+            </Link>
+          </nav>
+        </header>
+      )}
+      <main className="flex-1 bg-blue-200 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-lg bg-blue-100 p-8 rounded-2xl">
-          <div className="mb-3 flex items-center justify-center gap-3">
-            <Hash className="h-8 w-8 text-pink" />
-            <h1 className="text-4xl text-white font-bold">Tic Tac Toe</h1>
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <Hash className="md:h-8 md:w-8 text-pink" />
+            <h1 className="text-md sm:text-4xl text-white font-bold">
+              Tic Tac Toe
+            </h1>
           </div>
 
           <div className="mb-6 text-center">
-            <p className="text-xl font-semibold text-gray-100">
+            <p className="text-sm sm:text-xl font-semibold text-gray-100">
               {getGameStatus()}
             </p>
           </div>
