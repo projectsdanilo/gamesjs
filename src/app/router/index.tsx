@@ -17,7 +17,7 @@ export function Router() {
     >
       <Routes>
         <Route path="/" element={<TicTacToe />} />
-        <Route path={routes.profile} element={<Profile />} />
+        <Route path={routes.memory} element={<Profile />} />
       </Routes>
     </Suspense>
   );
