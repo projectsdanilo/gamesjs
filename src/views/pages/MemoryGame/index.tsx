@@ -5,38 +5,35 @@ import {
   Hash,
   Menu,
   PersonStanding,
-  RotateCcw,
   Worm,
 } from 'lucide-react';
+import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { checkWinner, isBoardFull } from '@app/helpers/tictactoe-logic';
+import { ANIMATIONS } from '@app/constants';
+import { useMemoryGame } from '@app/hooks/use-memory-game';
 import { routes } from '@app/router/routes';
-import { BoardState } from '@app/types';
-import { Board } from '@views/components/Board';
+import { Difficulty } from '@app/types';
+import { formatTime } from '@app/utils/formatTime';
+import { DifficultySelector } from '@views/components/DifficultySelector';
+import { GameBoard } from '@views/components/GameBoard';
+import { GameModal } from '@views/components/GameModal';
+import { ScoreBoard } from '@views/components/ScoreBoard';
 
-export function TicTacToe() {
-  const [board, setBoard] = useState<BoardState>(Array(9).fill(null));
+export function MemoryGame() {
   const [showSidebar, setShowSidebar] = useState(true);
-  const winner = checkWinner(board);
-  const isDraw = isBoardFull(board);
-  const currentPlayer = board.filter(Boolean).length % 2 === 0 ? 'X' : 'O';
 
-  function handleClick(index: number) {
-    if (board[index] || winner) return;
-    setBoard(board.map((square, i) => (index === i ? currentPlayer : square)));
-  }
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
 
-  function getGameStatus() {
-    if (winner) return `Player ${winner} wins!`;
-    if (isDraw) return 'Its a Draw!';
+  const { cards, handleCardClick, moves, time, gameCompleted, resetGame } =
+    useMemoryGame(difficulty || 'easy');
 
-    return `Player ${currentPlayer}'s turn`;
-  }
+  const formattedTime = formatTime(time);
 
-  function handleRestart() {
-    setBoard(Array(9).fill(null));
+  function handleRestartGame() {
+    resetGame();
+    setDifficulty(null);
   }
 
   function handleOpenSidebar() {
@@ -89,34 +86,42 @@ export function TicTacToe() {
         </header>
       )}
       <main className="flex-1 bg-blue-200 min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-lg bg-blue-100 p-8 rounded-2xl">
-          <div className="mb-3 flex items-center justify-center gap-2">
-            <Hash className="md:h-8 md:w-8 text-pink" />
+        <div className="w-full p-8 rounded-2xl">
+          <motion.div
+            {...ANIMATIONS.fadeInDown}
+            className="mb-7 flex items-center justify-center gap-2"
+          >
+            <Brain className="md:h-8 md:w-8 text-pink" />
             <h1 className="text-md sm:text-4xl text-white font-bold">
-              Tic Tac Toe
+              Memory Game
             </h1>
+          </motion.div>
+
+          <div className="flex flex-col items-center justify-center gap-2">
+            <ScoreBoard
+              moves={moves}
+              time={formattedTime}
+              onRestart={handleRestartGame}
+            />
+
+            {!difficulty ? (
+              <DifficultySelector onSelect={setDifficulty} />
+            ) : (
+              <GameBoard
+                cards={cards}
+                difficulty={difficulty}
+                onCardClick={handleCardClick}
+              />
+            )}
+
+            {gameCompleted && (
+              <GameModal
+                moves={moves}
+                time={formattedTime}
+                onRestart={handleRestartGame}
+              />
+            )}
           </div>
-
-          <div className="mb-6 text-center">
-            <p className="text-sm sm:text-xl font-semibold text-gray-100">
-              {getGameStatus()}
-            </p>
-          </div>
-
-          <Board board={board} winner={winner} onClick={handleClick} />
-
-          {(winner || isDraw) && (
-            <div className="mt-8 flex justify-center">
-              <button
-                className="group bg-pink text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
-                onClick={handleRestart}
-                type="button"
-              >
-                Play Again
-                <RotateCcw className="transition-transform duration-500 ease-in-out group-hover:-rotate-180" />
-              </button>
-            </div>
-          )}
         </div>
       </main>
     </div>

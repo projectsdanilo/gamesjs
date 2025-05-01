@@ -6,7 +6,7 @@ import { TicTacToe } from '@views/pages/TicTacToe';
 
 import { routes } from './routes';
 
-const { Profile } = lazyLoad(() => import('@views/pages/Profile'));
+const { MemoryGame } = lazyLoad(() => import('@views/pages/MemoryGame'));
 
 export function Router() {
   return (
@@ -17,7 +17,7 @@ export function Router() {
     >
       <Routes>
         <Route path="/" element={<TicTacToe />} />
-        <Route path={routes.memory} element={<Profile />} />
+        <Route path={routes.memory} element={<MemoryGame />} />
       </Routes>
     </Suspense>
   );
