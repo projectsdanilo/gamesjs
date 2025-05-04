@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { lazyLoad } from '@app/utils/lazyLoad';
+import { Hangman } from '@views/pages/Hangman';
 import { TicTacToe } from '@views/pages/TicTacToe';
 
 import { routes } from './routes';
@@ -18,6 +19,7 @@ export function Router() {
       <Routes>
         <Route path="/" element={<TicTacToe />} />
         <Route path={routes.memory} element={<MemoryGame />} />
+        <Route path={routes.hangman} element={<Hangman />} />
       </Routes>
     </Suspense>
   );
