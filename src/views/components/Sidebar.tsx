@@ -3,6 +3,7 @@ import {
   CircleCheck,
   Gamepad2,
   Hash,
+  Infinity,
   Menu,
   PersonStanding,
   Worm,
@@ -52,11 +53,20 @@ export function Sidebar() {
               Trivia Game
             </Link>
             <Link
-              to={routes.memory}
-              className="flex gap-1 items-center opacity-10 pointer-events-none"
+              to={routes.snake}
+              className="flex gap-1 items-center"
+              target="_blank"
             >
               <Worm className="text-pink text-sm w-4 h-4" />
               Snake Game
+            </Link>
+            <Link
+              to={routes.runner}
+              className="flex gap-1 items-center"
+              target="_blank"
+            >
+              <Infinity className="text-pink text-sm w-4 h-4" />
+              Infinite Runner
             </Link>
           </nav>
         </header>
