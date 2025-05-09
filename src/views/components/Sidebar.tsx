@@ -45,10 +45,7 @@ export function Sidebar() {
               <PersonStanding className="text-pink text-sm w-4 h-4" />
               Hangman
             </Link>
-            <Link
-              to={routes.memory}
-              className="flex gap-1 items-center opacity-10 pointer-events-none"
-            >
+            <Link to={routes.trivia} className="flex gap-1 items-center">
               <CircleCheck className="text-pink text-sm w-4 h-4" />
               Trivia Game
             </Link>
